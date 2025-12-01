@@ -38,12 +38,21 @@ const MinFontSize = (props: AutoSizeTextProps) => {
     }
   };
 
+  const extractedChildren = React.isValidElement(children) && children.type === Text
+    ? children.props.children
+    : children;
+
+  const childStyle = React.isValidElement(children) && children.type === Text
+    ? children.props.style
+    : undefined;
+
   return (
     <Text
       testID='min-font-size'
       numberOfLines={handleNumberOfLines()}
       style={[
         style,
+        childStyle,
         {
           fontSize: currentFont,
         },
@@ -51,7 +60,7 @@ const MinFontSize = (props: AutoSizeTextProps) => {
       {...rest}
       onTextLayout={handleResizing}
     >
-      {children}
+      {extractedChildren}
     </Text>
   );
 };

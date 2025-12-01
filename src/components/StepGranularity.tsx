@@ -31,12 +31,21 @@ const StepGranularity = (props: AutoSizeTextProps) => {
     }
   };
 
+  const extractedChildren = React.isValidElement(children) && children.type === Text
+    ? children.props.children
+    : children;
+
+  const childStyle = React.isValidElement(children) && children.type === Text
+    ? children.props.style
+    : undefined;
+
   return (
     <Text
       testID='step-granularity'
       numberOfLines={handleNumberOfLines()}
       style={[
         style,
+        childStyle,
         {
           fontSize: currentFont,
         },
@@ -44,7 +53,7 @@ const StepGranularity = (props: AutoSizeTextProps) => {
       onTextLayout={handleResizing}
       {...rest}
     >
-      {children}
+      {extractedChildren}
     </Text>
   );
 };

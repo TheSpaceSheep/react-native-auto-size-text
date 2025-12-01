@@ -35,12 +35,21 @@ const PresetFontSizes = (props: AutoSizeTextProps) => {
     }
   };
 
+  const extractedChildren = React.isValidElement(children) && children.type === Text
+    ? children.props.children
+    : children;
+
+  const childStyle = React.isValidElement(children) && children.type === Text
+    ? children.props.style
+    : undefined;
+
   return (
     <Text
       testID='preset-font-sizes'
       numberOfLines={handleNumberOfLines()}
       style={[
         style,
+        childStyle,
         {
           fontSize: currentFont,
         },
@@ -48,7 +57,7 @@ const PresetFontSizes = (props: AutoSizeTextProps) => {
       onTextLayout={handleResizing}
       {...rest}
     >
-      {children}
+      {extractedChildren}
     </Text>
   );
 };

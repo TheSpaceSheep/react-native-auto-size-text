@@ -24,11 +24,20 @@ const OverflowReplacement = (props: AutoSizeTextProps) => {
     setCurrentText(currentText);
   };
 
+  const extractedChildren = React.isValidElement(children) && children.type === Text
+    ? children.props.children
+    : children;
+
+  const childStyle = React.isValidElement(children) && children.type === Text
+    ? children.props.style
+    : undefined;
+
   return (
     <Text
       testID='overflow-replacement'
       style={[
         style,
+        childStyle,
         {
           fontSize: fontSize,
         },
@@ -36,7 +45,7 @@ const OverflowReplacement = (props: AutoSizeTextProps) => {
       {...rest}
       onTextLayout={handleResizing}
     >
-      {currentText ? currentText : children}
+      {currentText ? currentText : extractedChildren}
     </Text>
   );
 };

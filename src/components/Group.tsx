@@ -8,6 +8,14 @@ const Group = (props: AutoSizeTextProps) => {
 
   const { children, style, ...rest } = props;
 
+  const extractedChildren = React.isValidElement(children) && children.type === Text
+    ? children.props.children
+    : children;
+
+  const childStyle = React.isValidElement(children) && children.type === Text
+    ? children.props.style
+    : undefined;
+
   return (
     <Text
       testID='group'
@@ -15,13 +23,14 @@ const Group = (props: AutoSizeTextProps) => {
       numberOfLines={maxSize}
       style={[
         style,
+        childStyle,
         {
           fontSize: maxSize,
         },
       ]}
       {...rest}
     >
-      {children}
+      {extractedChildren}
     </Text>
   );
 };

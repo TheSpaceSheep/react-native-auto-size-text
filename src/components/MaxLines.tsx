@@ -16,6 +16,14 @@ const MaxLines = (props: AutoSizeTextProps) => {
     }
   };
 
+  const extractedChildren = React.isValidElement(children) && children.type === Text
+    ? children.props.children
+    : children;
+
+  const childStyle = React.isValidElement(children) && children.type === Text
+    ? children.props.style
+    : undefined;
+
   return (
     <Text
       testID='max-lines'
@@ -23,6 +31,7 @@ const MaxLines = (props: AutoSizeTextProps) => {
       adjustsFontSizeToFit
       style={[
         style,
+        childStyle,
         {
           fontSize: currentFont,
         },
@@ -30,7 +39,7 @@ const MaxLines = (props: AutoSizeTextProps) => {
       {...rest}
       onTextLayout={handleResizing}
     >
-      {children}
+      {extractedChildren}
     </Text>
   );
 };
